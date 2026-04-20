@@ -9,20 +9,22 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Asegúrate de cambiar 'TU-USUARIO' por tu nombre de usuario real de GitHub
+                // Clonado del repositorio usando tu URL específica
                 git branch: 'main', 
-                    url: 'https://github.com/TU-USUARIO/mi-web-go.git'
+                    url: 'https://github.com/rbsrs/uoc-producto1-go.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
+                // Construcción de la imagen Docker
                 sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
             }
         }
 
         stage('Deploy to Kubernetes') {
             steps {
+                // Aplicación de los manifiestos de Kubernetes
                 sh 'kubectl apply -f k8s/deployment.yaml'
                 sh 'kubectl rollout restart deployment/mi-web-deployment'
             }
